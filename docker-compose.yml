@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: project_container
+    environment:
+      MYSQL_DATABASE: Manthan_sakila_db 
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Manthan44
+    ports:
+      - "3306:3306"
+    networks:
+      - ola_network
+
+
+  springboot:
+    build: .
+    container_name: sakila_app
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    networks:
+      - ola_network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://manthan-sakila-db.cxbxe7ypeoyt.us-east-1.rds.amazonaws.com/Manthan_sakila_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: Manthan44
+
+networks:
+  ola_network:
+    driver: bridge
